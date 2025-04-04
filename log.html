@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Logger</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: black;
+            color: #00FF00;
+            text-align: center;
+            padding: 20px;
+        }
+        .info {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Tracking...</h1>
+    <p>Scammer IP Address:</p>
+    <div class="info">
+        <p><strong>IP:</strong> <span id="ip">Loading...</span></p>
+        <p><strong>Country:</strong> <span id="country">Loading...</span></p>
+        <p><strong>City:</strong> <span id="city">Loading...</span></p>
+        <p><strong>ISP:</strong> <span id="isp">Loading...</span></p>
+        <p><strong>Google Maps:</strong> <a id="maps" href="#" target="_blank">View Location</a></p>
+    </div>
+
+    <script>
+        fetch("https://ipwho.is/")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("ip").textContent = data.ip;
+            document.getElementById("country").textContent = data.country;
+            document.getElementById("city").textContent = data.city;
+            document.getElementById("isp").textContent = data.connection.isp;
+            document.getElementById("maps").href = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`;
+
+            // Save log to localStorage
+            let logData = {
+                ip: data.ip,
+                country: data.country,
+                city: data.city,
+                isp: data.connection.isp,
+                time: new Date().toLocaleString()
+            };
+            let logs = JSON.parse(localStorage.getItem("logs")) || [];
+            logs.push(logData);
+            localStorage.setItem("logs", JSON.stringify(logs));
+        })
+        .catch(error => console.error("Error fetching IP data:", error));
+    </script>
+
+</body>
+</html>

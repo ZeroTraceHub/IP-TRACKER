@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scammer IP Tracker</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: black;
+            color: #00FF00;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: #111;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #00FF00;
+            box-shadow: 0 0 10px #00FF00;
+            display: inline-block;
+        }
+        input, button {
+            background-color: black;
+            color: #00FF00;
+            border: 1px solid #00FF00;
+            padding: 10px;
+            margin: 5px;
+            width: 90%;
+        }
+        .result {
+            margin-top: 20px;
+            background-color: #222;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Scammer IP Tracker</h1>
+        <p>Enter scammer's phone number (+92 or +91):</p>
+        <input type="text" id="phoneNumber" placeholder="+92xxxxxxxxxx or +91xxxxxxxxxx">
+        <button onclick="generateLink()">Generate Tracking Link</button>
+        <div class="result">
+            <p><strong>Tracking Link:</strong></p>
+            <input type="text" id="trackingLink" readonly>
+        </div>
+    </div>
+
+    <script>
+        function generateLink() {
+            let phone = document.getElementById("phoneNumber").value;
+            if (!phone.startsWith("+92") && !phone.startsWith("+91") || phone.length < 10) {
+                alert("Enter a valid Pakistan (+92) or India (+91) number!");
+                return;
+            }
+            let encodedPhone = encodeURIComponent(phone);
+            let trackingUrl = `https://yourusername.github.io/ip-tracker/log.html?phone=${encodedPhone}`;
+            document.getElementById("trackingLink").value = trackingUrl;
+        }
+    </script>
+
+</body>
+</html>

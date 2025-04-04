@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracked IPs</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: black;
+            color: #00FF00;
+            text-align: center;
+            padding: 20px;
+        }
+        .log {
+            background-color: #222;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Tracked IPs</h1>
+    <div id="logContainer"></div>
+
+    <script>
+        let logs = JSON.parse(localStorage.getItem("logs")) || [];
+        let container = document.getElementById("logContainer");
+
+        if (logs.length === 0) {
+            container.innerHTML = "<p>No IPs tracked yet.</p>";
+        } else {
+            logs.forEach(log => {
+                container.innerHTML += `
+                    <div class="log">
+                        <p><strong>IP:</strong> ${log.ip}</p>
+                        <p><strong>Location:</strong> ${log.city}, ${log.country}</p>
+                        <p><strong>ISP:</strong> ${log.isp}</p>
+                        <p><strong>Time:</strong> ${log.time}</p>
+                        <p><a href="https://www.google.com/maps/search/?api=1&query=${log.city},${log.country}" target="_blank">View on Maps</a></p>
+                    </div>
+                `;
+            });
+        }
+    </script>
+
+</body>
+</html>
